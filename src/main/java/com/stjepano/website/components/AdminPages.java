@@ -47,10 +47,10 @@ public class AdminPages {
         return menu;
     }
 
-    public AdminPage getByPathPattern(String path) {
+    public Optional<AdminPage> getByPathPattern(String path) {
         Optional<AdminPage> menuOptional = menuPages.stream().filter(ap -> ap.getPath().equals(path)).findFirst();
-        if (menuOptional.isPresent()) return menuOptional.get();
-        return otherPages.stream().filter(ap -> ap.getPath().equals(path)).findFirst().orElseThrow(() -> new RuntimeException("Could not find admin page with path '"+path+"'"));
+        if (menuOptional.isPresent()) return menuOptional;
+        return otherPages.stream().filter(ap -> ap.getPath().equals(path)).findFirst();
     }
 
 }

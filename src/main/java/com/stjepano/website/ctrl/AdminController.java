@@ -5,6 +5,9 @@ import com.stjepano.website.components.AdminPages;
 import com.stjepano.website.components.DevUtils;
 import com.stjepano.website.model.WebUser;
 import com.stjepano.website.services.WebUserService;
+import com.stjepano.website.utils.UrlUtils;
+import com.stjepano.website.view.AdminPage;
+import com.stjepano.website.view.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.HandlerMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Date;
 
@@ -50,6 +54,8 @@ public class AdminController {
     public static final String USERS_CREATE = "/users/create";
     public static final String USERS_EDIT = "/users/{id}";
 
+    private static final String FLASH_MESSAGE = "flashMessage";
+
 
     // we are injecting common model attributes here
     // note that this method can take anything as @RequestMapping method can
@@ -64,14 +70,17 @@ public class AdminController {
         webUser.setImageUri("/adminlte/img/user2-160x160.jpg");
         webUser.setCreated(new Date());
 
-        // render the menu to the client
-        model.addAttribute("menu", adminPages.createMenu(path));
-        // render page information (title, icon, description, etc ...)
-        model.addAttribute("page", adminPages.getByPathPattern(matchedPathPattern));
-        // render user information
-        model.addAttribute("user", webUser);
-        // render configuration ...
-        model.addAttribute("config", adminConfig);
+        adminPages.getByPathPattern(matchedPathPattern).ifPresent( page -> {
+            // render the menu to the client
+            model.addAttribute("menu", adminPages.createMenu(path));
+            // render page information (title, icon, description, etc ...)
+            model.addAttribute("page", page);
+            // render user information
+            model.addAttribute("user", webUser);
+            // render configuration ...
+            model.addAttribute("config", adminConfig);
+        });
+
     }
 
     @RequestMapping(path = AdminController.DASHBOARD, method = RequestMethod.GET)
@@ -111,6 +120,12 @@ public class AdminController {
     @RequestMapping(path = USERS_EDIT, method = RequestMethod.GET)
     public String editUser(@PathVariable Long id, Model model) {
         return "admin/users-edit";
+    }
+
+    @RequestMapping(path = "/users/delete", method = RequestMethod.POST)
+    public String deleteUsers(RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute(FLASH_MESSAGE, Message.info("Deleted all users"));
+        return "redirect:" + UrlUtils.adminPath(USERS);
     }
 
     @RequestMapping(path = AdminController.STATISTICS, method = RequestMethod.GET)
