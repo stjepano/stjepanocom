@@ -15,6 +15,8 @@ public class AdminConfig {
     private String copyrightMessage;
     @Value("${com.stjepano.website.AdminConfig.logoText}")
     private String logoText;
+    @Value("${com.stjepano.website.AdminConfig.usersPerPage:50}")
+    private Integer usersPerPage;
 
     public String getTitle() {
         return title;
@@ -38,5 +40,13 @@ public class AdminConfig {
 
     public void setLogoText(String logoText) {
         this.logoText = logoText;
+    }
+
+    public Integer getUsersPerPage() {
+        return usersPerPage;
+    }
+
+    public void setUsersPerPage(Integer usersPerPage) {
+        this.usersPerPage = usersPerPage;
     }
 }

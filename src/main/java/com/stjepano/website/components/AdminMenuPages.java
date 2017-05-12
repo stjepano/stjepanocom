@@ -27,7 +27,7 @@ public class AdminMenuPages {
         adminPages.add(new AdminPage(UrlUtils.adminPath(AdminController.POSTS), "Posts", "List of all the posts", "fa-file-o", null));
         adminPages.add(new AdminPage(UrlUtils.adminPath(AdminController.TAXONOMY), "Tags & Categories", "Create/edit/delete tags and categories", "fa-file-o", null));
         adminPages.add(new AdminPage(UrlUtils.adminPath(AdminController.COMMENTS), "Comments", "Manage comments", "fa-file-o", null));
-        adminPages.add(new AdminPage(UrlUtils.adminPath(AdminController.USERS), "Users", "Create/edit/delete users", "fa-users", null));
+        adminPages.add(new AdminPage(UrlUtils.adminPath(AdminController.USERS), "Users", "Manage users", "fa-users", null));
         adminPages.add(new AdminPage(UrlUtils.adminPath(AdminController.STATISTICS), "Statistics", "View site statistics", "fa-line-chart", null));
         adminPages.add(new AdminPage(UrlUtils.adminPath(AdminController.SETTINGS), "Settings", "Edit site settings", "fa-cog", null));
     }

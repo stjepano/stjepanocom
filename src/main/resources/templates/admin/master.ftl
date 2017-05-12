@@ -223,14 +223,12 @@ desired effect
                 <li class="active">${page.title}</li>
             </ol>
             </#if>
-            <#nested>
         </section>
 
         <!-- Main content -->
         <section class="content">
-
             <!-- Your Page Content Here -->
-
+            <#nested>
         </section>
         <!-- /.content -->
     </div>

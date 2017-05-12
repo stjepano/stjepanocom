@@ -1,21 +1,33 @@
-package com.stjepano.website.model.database;
+package com.stjepano.website.model;
 
+import javax.persistence.*;
 import java.util.Date;
 
 /**
- * Write short comment about this class/interface/whatever ... What is it's responsibility?
+ * The user domain class.
  */
-public class User {
+@Entity
+public class WebUser {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(unique = true, nullable = false)
     private String email;
     private boolean blocked;
     private String imageUri;
+    @Column(unique = true)
     private String displayName;
     private String description;
+    private String salt;
+    private String hashedPassword;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date created;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
-    private User createdUser;
-    private User updatedUser;
+    @ManyToOne
+    private WebUser createdWebUser;
+    @ManyToOne
+    private WebUser updatedWebUser;
 
     public Long getId() {
         return id;
@@ -65,6 +77,22 @@ public class User {
         this.description = description;
     }
 
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
+    public String getHashedPassword() {
+        return hashedPassword;
+    }
+
+    public void setHashedPassword(String hashedPassword) {
+        this.hashedPassword = hashedPassword;
+    }
+
     public Date getCreated() {
         return created;
     }
@@ -81,19 +109,19 @@ public class User {
         this.updated = updated;
     }
 
-    public User getCreatedUser() {
-        return createdUser;
+    public WebUser getCreatedWebUser() {
+        return createdWebUser;
     }
 
-    public void setCreatedUser(User createdUser) {
-        this.createdUser = createdUser;
+    public void setCreatedWebUser(WebUser createdWebUser) {
+        this.createdWebUser = createdWebUser;
     }
 
-    public User getUpdatedUser() {
-        return updatedUser;
+    public WebUser getUpdatedWebUser() {
+        return updatedWebUser;
     }
 
-    public void setUpdatedUser(User updatedUser) {
-        this.updatedUser = updatedUser;
+    public void setUpdatedWebUser(WebUser updatedWebUser) {
+        this.updatedWebUser = updatedWebUser;
     }
 }
