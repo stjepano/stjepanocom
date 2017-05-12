@@ -11,4 +11,11 @@ public class UrlUtils {
         return AdminController.ADMIN_BASE_PATH + subpath;
     }
 
+    public static String stripAdminBasePath(String path) {
+        if (path.startsWith(AdminController.ADMIN_BASE_PATH)) {
+            return path.substring(AdminController.ADMIN_BASE_PATH.length());
+        }
+        return path;
+    }
+
 }

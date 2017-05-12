@@ -181,24 +181,6 @@ desired effect
                 <#list menu.links as link>
                     <li class="${link.active?string("active", "")}"><a href="${link.url}"><i class="fa ${link.faIcon}"></i> ${link.text}</a></li>
                 </#list>
-                <!--
-                <li class="active"><a href="/admin/"><i class="fa  fa-tachometer"></i> <span>Dashboard</span></a></li>
-                <li class="treeview">
-                    <a href="#"><i class="fa fa-file-o"></i> <span>Content</span>
-                        <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="/admin/posts">Posts</a></li>
-                        <li><a href="/admin/taxonomy">Tags &amp; Categories</a></li>
-                        <li><a href="/admin/comments">Comments</a></li>
-                    </ul>
-                </li>
-                <li><a href="/admin/users"><i class="fa fa-users"></i> <span>Users</span></a></li>
-                <li><a href="/admin/stats"><i class="fa fa-line-chart"></i> <span>Stats</span></a></li>
-                <li><a href="/admin/settings"><i class="fa fa-cogs"></i> <span>Settings</span></a></li>
-                -->
             </ul>
             <!-- /.sidebar-menu -->
         </section>
