@@ -123,8 +123,8 @@ public class AdminController {
     }
 
     @RequestMapping(path = "/users/delete", method = RequestMethod.POST)
-    public String deleteUsers(RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute(FLASH_MESSAGE, Message.info("Deleted all users"));
+    public String deleteUsers(@RequestParam("users[]") String[] users, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute(FLASH_MESSAGE, Message.info("Deleted "+users.length+" users"));
         return "redirect:" + UrlUtils.adminPath(USERS);
     }
 
