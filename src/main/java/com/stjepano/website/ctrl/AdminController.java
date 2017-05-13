@@ -8,6 +8,9 @@ import com.stjepano.website.services.WebUserService;
 import com.stjepano.website.utils.UrlUtils;
 import com.stjepano.website.view.AdminPage;
 import com.stjepano.website.view.Message;
+import com.stjepano.website.view.UserDto;
+import com.stjepano.website.view.ValidationResult;
+import com.stjepano.website.view.validator.UserDtoValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +48,9 @@ public class AdminController {
     @Autowired
     private DevUtils devUtils;
 
+    @Autowired
+    private UserDtoValidator userDtoValidator;
+
     public static final String ADMIN_BASE_PATH = "/admin";
     public static final String DASHBOARD = "/";
     public static final String POSTS = "/posts";
@@ -57,7 +63,8 @@ public class AdminController {
     public static final String USERS_CREATE = "/users/create";
     public static final String USERS_EDIT = "/users/{id}";
 
-    private static final String FLASH_MESSAGE = "flashMessage";
+    private static final String MESSAGE = "message";
+    private static final String FLASH_MESSAGE = MESSAGE;
 
 
     // we are injecting common model attributes here
@@ -117,7 +124,27 @@ public class AdminController {
 
     @RequestMapping(path = USERS_CREATE, method = RequestMethod.GET)
     public String createUser(Model model) {
+        UserDto userDto = new UserDto();
+        model.addAttribute("dto", userDto);
         return "admin/users-create";
+    }
+
+    @RequestMapping(path = USERS_CREATE, method = RequestMethod.POST)
+    public String handleCreateUser(@ModelAttribute("dto") UserDto userDto, RedirectAttributes redirectAttributes, Model model) {
+        ValidationResult validationResult = userDtoValidator.validate(userDto);
+        if (!validationResult.hasErrors()) {
+            if (!userDto.isStayOnThisPage()) {
+                redirectAttributes.addFlashAttribute(FLASH_MESSAGE, Message.success("User "+userDto.getEmail()+" successfully created"));
+                return "redirect:/admin/users";
+            } else {
+                model.addAttribute(MESSAGE, Message.success("User "+userDto.getEmail()+" successfully created"));
+                return "admin/users-create";
+            }
+        } else {
+            model.addAttribute(MESSAGE, Message.warning("Validation errors, please reenter the data in the form and try again."));
+            model.addAttribute("validation", validationResult);
+            return "admin/users-create";
+        }
     }
 
     @RequestMapping(path = USERS_EDIT, method = RequestMethod.GET)
@@ -126,7 +153,7 @@ public class AdminController {
     }
 
     @RequestMapping(path = "/users/delete", method = RequestMethod.POST)
-    public String deleteUsers(@RequestParam("users[]") String[] users, RedirectAttributes redirectAttributes) {
+    public String handleDeleteUsers(@RequestParam("users[]") String[] users, RedirectAttributes redirectAttributes) {
         List<Long> ids = Arrays.stream(users).map(Long::parseLong).collect(Collectors.toList());
         webUserService.deleteUsers(ids);
         redirectAttributes.addFlashAttribute(FLASH_MESSAGE, Message.info("Deleted "+users.length+" users"));

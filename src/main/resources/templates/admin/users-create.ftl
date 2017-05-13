@@ -11,14 +11,14 @@
                 <div class="box-body">
                     <!-- text input -->
                     <div class="form-group">
-                    <label>Email</label>
-                    <input class="form-control" type="email" name="email" />
-                    <span class="help-block">This is users login name</span>
+                        <label>Email</label>
+                        <input class="form-control" type="email" name="email" value='${(dto.email)!""}' />
+                        <span class="help-block">This is users login name</span>
                     </div>
                     <div class="form-group">
-                    <label>Display name</label>
-                    <input class="form-control" type="text" name="displayName" />
-                    <span class="help-block">This is users display name, if provided it will be displayed on web site instead of email.</span>
+                        <label>Display name</label>
+                        <input class="form-control" type="text" name="displayName" value='${(dto.displayName)!""}' />
+                        <span class="help-block">This is users display name, if provided it will be displayed on web site instead of email.</span>
                     </div>
 
                     <div class="row">
@@ -35,19 +35,19 @@
                     <!-- textarea -->
                     <div class="form-group">
                         <label>Description</label>
-                        <textarea class="form-control" rows="5" placeholder="Enter description ..." name="description"></textarea>
+                        <textarea class="form-control" rows="5" placeholder="Enter description ..." name="description">${(dto.description)!""}</textarea>
                         <span class="help-block">Users description, something about user.</span>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputFile">Users image</label>
-                        <input id="exampleInputFile" type="file">
+                        <label for="userImage">Users image</label>
+                        <input id="userImage" name="userImage" type="file" />
                         <p class="help-block">User image is displayed in admin UI and can be displayed in frontend depending on the theme</p>
                     </div>
 
                     <div class="form-group">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" name="blocked" /><em>Disable login</em>
+                                <input type="checkbox" name="blocked" ${dto.blocked?then('checked', '')} /><em>Disable login</em>
                             </label>
                         </div>
                     </div>
@@ -55,7 +55,7 @@
                 <!-- /.box-body -->
                 <div class="box-footer">
                     <button type="submit" class="btn btn-primary">Submit</button>
-                    <label class="checkbox-inline" style="margin-left: 10px"><input type="checkbox" name="stayOnThisPage" />Stay on this page</label>
+                    <label class="checkbox-inline" style="margin-left: 10px"><input type="checkbox" name="stayOnThisPage" ${dto.stayOnThisPage?then('checked', '')} />Stay on this page</label>
                 </div>
             </form>
           </div>

@@ -215,10 +215,10 @@ desired effect
         <!-- Main content -->
         <section class="content">
             <!-- Your Page Content Here -->
-            <#if flashMessage??>
-                <div class="alert alert-${flashMessage.getType()} alert-dismissible">
+            <#if message??>
+                <div class="alert alert-${message.getType()} alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    ${flashMessage.getText()}
+                    ${message.getText()}
                 </div>
             </#if>
             <#nested>
