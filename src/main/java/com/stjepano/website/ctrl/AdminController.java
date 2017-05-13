@@ -19,7 +19,10 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * This is administration controller.
@@ -107,7 +110,7 @@ public class AdminController {
     public String users(@RequestParam(value = "page", required = false, defaultValue = "1") int page, Model model) {
         // we need to load all the users and pass it in
         final Page<WebUser> usersPage = webUserService.getPage(page-1);
-        model.addAttribute("users", devUtils.createRandomUsers(50, page, 7));
+        model.addAttribute("users", usersPage);
 
         return "admin/users";
     }
@@ -124,6 +127,8 @@ public class AdminController {
 
     @RequestMapping(path = "/users/delete", method = RequestMethod.POST)
     public String deleteUsers(@RequestParam("users[]") String[] users, RedirectAttributes redirectAttributes) {
+        List<Long> ids = Arrays.stream(users).map(Long::parseLong).collect(Collectors.toList());
+        webUserService.deleteUsers(ids);
         redirectAttributes.addFlashAttribute(FLASH_MESSAGE, Message.info("Deleted "+users.length+" users"));
         return "redirect:" + UrlUtils.adminPath(USERS);
     }

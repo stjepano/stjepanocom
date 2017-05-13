@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * This is {@link com.stjepano.website.model.WebUser} service
@@ -39,6 +40,10 @@ public class WebUserService {
         prototype.setSalt(genSalt());
         prototype.setHashedPassword(hashPassword(password, prototype.getSalt()));
         return repository.save(prototype);
+    }
+
+    public void deleteUsers(List<Long> ids) {
+        ids.forEach(repository::delete);
     }
 
     private String genSalt() {
