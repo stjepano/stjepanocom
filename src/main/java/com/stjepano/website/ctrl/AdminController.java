@@ -6,11 +6,11 @@ import com.stjepano.website.components.DevUtils;
 import com.stjepano.website.model.WebUser;
 import com.stjepano.website.services.WebUserService;
 import com.stjepano.website.utils.UrlUtils;
-import com.stjepano.website.view.AdminPage;
 import com.stjepano.website.view.Message;
 import com.stjepano.website.view.UserDto;
 import com.stjepano.website.view.ValidationResult;
-import com.stjepano.website.view.validator.UserDtoValidator;
+import com.stjepano.website.view.validator.CreateUserValidator;
+import com.stjepano.website.view.validator.UpdateUserValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +49,10 @@ public class AdminController {
     private DevUtils devUtils;
 
     @Autowired
-    private UserDtoValidator userDtoValidator;
+    private CreateUserValidator createUserValidator;
+
+    @Autowired
+    private UpdateUserValidator updateUserValidator;
 
     public static final String ADMIN_BASE_PATH = "/admin";
     public static final String DASHBOARD = "/";
@@ -132,7 +135,7 @@ public class AdminController {
 
     @RequestMapping(path = USERS_CREATE, method = RequestMethod.POST)
     public String handleCreateUser(@ModelAttribute("dto") UserDto userDto, RedirectAttributes redirectAttributes, Model model) {
-        ValidationResult validationResult = userDtoValidator.validate(userDto);
+        ValidationResult validationResult = createUserValidator.validate(userDto);
         if (!validationResult.hasErrors()) {
             if (!userDto.isStayOnThisPage()) {
                 redirectAttributes.addFlashAttribute(FLASH_MESSAGE, Message.success("User "+userDto.getEmail()+" successfully created"));
@@ -142,14 +145,32 @@ public class AdminController {
                 return "admin/users-create";
             }
         } else {
-            model.addAttribute(MESSAGE, Message.warning("Validation errors, please reenter the data in the form and try again."));
-            model.addAttribute(VALIDATION, validationResult);
+            validationError(model, validationResult);
             return "admin/users-create";
         }
     }
 
     @RequestMapping(path = USERS_EDIT, method = RequestMethod.GET)
     public String editUser(@PathVariable Long id, Model model) {
+        UserDto userDto = new UserDto();
+        WebUser webUser = webUserService.findById(id).orElseThrow(() -> UserNotFoundException.create(id));
+        userDto.setId(webUser.getId());
+        userDto.setEmail(webUser.getEmail());
+        userDto.setBlocked(webUser.isBlocked());
+        userDto.setDescription(webUser.getDescription());
+        userDto.setDisplayName(webUser.getDisplayName());
+        model.addAttribute("dto", userDto);
+        return "admin/users-edit";
+    }
+
+    @RequestMapping(path = USERS_EDIT, method = RequestMethod.POST)
+    public String handleEditUser(@PathVariable Long id, @ModelAttribute("dto") UserDto userDto, RedirectAttributes redirectAttributes, Model model) {
+        ValidationResult validationResult = updateUserValidator.validate(userDto);
+        if (!validationResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute(FLASH_MESSAGE, "User '"+userDto.getEmail()+"' successfully updated.");
+            return "redirect:/admin/users";
+        }
+        validationError(model, validationResult);
         return "admin/users-edit";
     }
 
@@ -186,4 +207,9 @@ public class AdminController {
         return "redirect:/";
     }
 
+    /** set message and validation object in model */
+    private void validationError(Model model, ValidationResult validationResult) {
+        model.addAttribute(MESSAGE, Message.warning("Validation errors, please reenter the data in the form and try again."));
+        model.addAttribute(VALIDATION, validationResult);
+    }
 }

@@ -6,6 +6,7 @@ import org.apache.commons.validator.routines.EmailValidator;
  * Form submission for create user and update user.
  */
 public class UserDto {
+    private Long id;
     private String email;
     private String displayName;
     private String password;
@@ -13,6 +14,14 @@ public class UserDto {
     private String description;
     private boolean blocked;
     private boolean stayOnThisPage;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getEmail() {
         return email;

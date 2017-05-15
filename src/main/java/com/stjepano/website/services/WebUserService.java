@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * This is {@link com.stjepano.website.model.WebUser} service
@@ -40,6 +41,11 @@ public class WebUserService {
         prototype.setSalt(genSalt());
         prototype.setHashedPassword(hashPassword(password, prototype.getSalt()));
         return repository.save(prototype);
+    }
+
+    public Optional<WebUser> findById(Long id) {
+        if (id == null) throw new NullPointerException("id");
+        return Optional.ofNullable(repository.findOne(id));
     }
 
     public void deleteUsers(List<Long> ids) {

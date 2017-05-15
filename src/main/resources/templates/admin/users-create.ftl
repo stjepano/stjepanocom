@@ -1,14 +1,5 @@
 <#import "./master.ftl" as master>
-<#macro formgroup name classes=''>
-    <div class="form-group ${classes} <#if validation??>${validation.hasError('${name}')?then('has-error', '')}</#if>">
-        <#nested>
-        <#if validation??>
-            <#if validation.hasError('${name}')>
-                <p class="text-red"><i class="fa fa-exclamation-circle"></i> ${validation.getError('${name}')}</p>
-            </#if>
-        </#if>
-    </div>
-</#macro>
+<#import "./macros.ftl" as m>
 <@master.template>
 <div class="row">
     <div class="col-xs-12">
@@ -20,11 +11,11 @@
             <form role="form" action="/admin/users/create" method="POST">
                 <div class="box-body">
                     <!-- text input -->
-                    <@formgroup name="email">
+                    <@m.formgroup name="email">
                         <label>Email</label>
                         <input class="form-control" type="email" name="email" value='${(dto.email)!""}' />
                         <span class="help-block">This is users login name</span>
-                    </@formgroup>
+                    </@m.formgroup>
                     <!--
                     <div class="form-group <#if validation??>${validation.hasError('email')?then('has-error', '')}</#if>">
                         <label>Email</label>
@@ -32,42 +23,42 @@
                         <span class="help-block">This is users login name</span>
                     </div>
                     -->
-                    <@formgroup name="displayName">
+                    <@m.formgroup name="displayName">
                         <label>Display name</label>
                         <input class="form-control" type="text" name="displayName" value='${(dto.displayName)!""}' />
                         <span class="help-block">This is users display name, if provided it will be displayed on web site instead of email.</span>
-                    </@formgroup>
+                    </@m.formgroup>
 
                     <div class="row">
-                        <@formgroup name="password" classes="col-md-6">
+                        <@m.formgroup name="password" classes="col-md-6">
                             <label>Password</label>
                             <input class="form-control" type="password" name="password" />
-                        </@formgroup>
-                        <@formgroup name="passwordConfirm" classes="col-md-6">
+                        </@m.formgroup>
+                        <@m.formgroup name="passwordConfirm" classes="col-md-6">
                             <label>Confirm password</label>
                             <input class="form-control" type="password" name="passwordConfirm" />
-                        </@formgroup>
+                        </@m.formgroup>
                     </div>
 
                     <!-- textarea -->
-                    <@formgroup name="description">
+                    <@m.formgroup name="description">
                         <label>Description</label>
                         <textarea class="form-control" rows="5" placeholder="Enter description ..." name="description">${(dto.description)!""}</textarea>
                         <span class="help-block">Users description, something about user.</span>
-                    </@formgroup>
-                    <@formgroup name="userImage">
+                    </@m.formgroup>
+                    <@m.formgroup name="userImage">
                         <label for="userImage">Users image</label>
                         <input id="userImage" name="userImage" type="file" />
                         <p class="help-block">User image is displayed in admin UI and can be displayed in frontend depending on the theme</p>
-                    </@formgroup>
+                    </@m.formgroup>
 
-                    <@formgroup name="blocked">
+                    <@m.formgroup name="blocked">
                         <div class="checkbox">
                             <label>
                                 <input type="checkbox" name="blocked" ${dto.blocked?then('checked', '')} /><em>Disable login</em>
                             </label>
                         </div>
-                    </@formgroup>
+                    </@m.formgroup>
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer">
