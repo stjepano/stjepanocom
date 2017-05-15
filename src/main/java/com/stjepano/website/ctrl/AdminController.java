@@ -6,6 +6,7 @@ import com.stjepano.website.components.DevUtils;
 import com.stjepano.website.model.WebUser;
 import com.stjepano.website.services.WebUserService;
 import com.stjepano.website.utils.UrlUtils;
+import com.stjepano.website.view.LoginDto;
 import com.stjepano.website.view.Message;
 import com.stjepano.website.view.UserDto;
 import com.stjepano.website.view.ValidationResult;
@@ -25,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -205,12 +207,24 @@ public class AdminController {
     }
 
     @RequestMapping(path = "/login", method = RequestMethod.GET)
-    public String login() {
+    public String login(Model model) {
+        model.addAttribute("dto", new LoginDto());
         return "admin/login";
     }
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
-    public String doLogin(Model model) {
+    public String handleLogin(@ModelAttribute("dto") LoginDto loginDto, RedirectAttributes redirectAttributes, Model model) {
+        model.addAttribute("dto", loginDto);
+        if (loginDto.getEmail() == null || loginDto.getPassword() == null) {
+            model.addAttribute(MESSAGE, Message.danger("Email and/or password are invalid!"));
+            return "admin/login";
+        }
+        Optional<WebUser> webUserOptional = webUserService.findByLogin(loginDto.getEmail(), loginDto.getPassword());
+        if (webUserOptional.isPresent()) {
+            redirectAttributes.addFlashAttribute(FLASH_MESSAGE, Message.success("Successfully logged in as '" + loginDto.getEmail() + "'"));
+            return "redirect:/admin/";
+        }
+        model.addAttribute(MESSAGE, Message.danger("Email and/or password are invalid!"));
         return "admin/login";
     }
 

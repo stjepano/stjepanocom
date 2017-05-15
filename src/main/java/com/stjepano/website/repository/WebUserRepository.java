@@ -10,5 +10,6 @@ import java.util.List;
  */
 public interface WebUserRepository extends PagingAndSortingRepository<WebUser, Long> {
 
+    WebUser findByEmail(String email);
 
 }

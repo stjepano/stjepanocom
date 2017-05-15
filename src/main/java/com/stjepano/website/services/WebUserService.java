@@ -52,6 +52,19 @@ public class WebUserService {
         ids.forEach(repository::delete);
     }
 
+    public Optional<WebUser> findByLogin(String email, String password) {
+        WebUser webUser = repository.findByEmail(email);
+        if (webUser == null || webUser.isBlocked()) {
+            return Optional.empty();
+        }
+
+        String providedPasswordHash = hashPassword(password, webUser.getSalt());
+        if (providedPasswordHash.equals(webUser.getHashedPassword())) {
+            return Optional.of(webUser);
+        }
+        return Optional.empty();
+    }
+
     private String genSalt() {
         return DigestUtils.md5Hex(RandomStringUtils.randomAlphanumeric(16));
     }
