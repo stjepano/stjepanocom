@@ -37,7 +37,6 @@ public class WebUserService {
     public WebUser createUser(WebUser prototype, String password) {
         prototype.setCreated(new Date());
         prototype.setUpdated(new Date());
-        prototype.setBlocked(false);
         prototype.setSalt(genSalt());
         prototype.setHashedPassword(hashPassword(password, prototype.getSalt()));
         return repository.save(prototype);
@@ -58,5 +57,15 @@ public class WebUserService {
 
     private String hashPassword(String password, String salt) {
         return DigestUtils.sha512Hex(salt + password);
+    }
+
+    public WebUser updateUser(WebUser webUser, String password) {
+        if (password != null && !password.isEmpty()) {
+            // update password
+            webUser.setSalt(genSalt());
+            webUser.setHashedPassword(hashPassword(password, webUser.getSalt()));
+        }
+        webUser.setUpdated(new Date());
+        return repository.save(webUser);
     }
 }

@@ -136,12 +136,23 @@ public class AdminController {
     @RequestMapping(path = USERS_CREATE, method = RequestMethod.POST)
     public String handleCreateUser(@ModelAttribute("dto") UserDto userDto, RedirectAttributes redirectAttributes, Model model) {
         ValidationResult validationResult = createUserValidator.validate(userDto);
-        if (!validationResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute(FLASH_MESSAGE, Message.success("User " + userDto.getEmail() + " successfully created"));
-            return userDto.isStayOnThisPage() ? "redirect:/admin/users/create" : "redirect:/admin/users";
+        if (validationResult.hasErrors()) {
+            validationError(model, validationResult);
+            return "admin/users-create";
         }
-        validationError(model, validationResult);
-        return "admin/users-create";
+
+        WebUser webUser = new WebUser();
+        webUser.setEmail(userDto.getEmail());
+        webUser.setDisplayName(userDto.getDisplayName());
+        webUser.setDescription(userDto.getDescription());
+        webUser.setBlocked(userDto.isBlocked());
+        // todo: webUser.setCreatedWebUser();
+        // todo: webUser.setImageUri();
+
+        webUserService.createUser(webUser, userDto.getPassword());
+
+        redirectAttributes.addFlashAttribute(FLASH_MESSAGE, Message.success("User " + userDto.getEmail() + " successfully created"));
+        return userDto.isStayOnThisPage() ? "redirect:/admin/users/create" : "redirect:/admin/users";
     }
 
     @RequestMapping(path = USERS_EDIT, method = RequestMethod.GET)
@@ -159,13 +170,20 @@ public class AdminController {
 
     @RequestMapping(path = USERS_EDIT, method = RequestMethod.POST)
     public String handleEditUser(@PathVariable Long id, @ModelAttribute("dto") UserDto userDto, RedirectAttributes redirectAttributes, Model model) {
+        WebUser webUser = webUserService.findById(id).orElseThrow(() -> UserNotFoundException.create(id));
         ValidationResult validationResult = updateUserValidator.validate(userDto);
-        if (!validationResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute(FLASH_MESSAGE, Message.success("User '"+userDto.getEmail()+"' successfully updated."));
-            return "redirect:/admin/users";
+        if (validationResult.hasErrors()) {
+            validationError(model, validationResult);
+            return "admin/users-edit";
         }
-        validationError(model, validationResult);
-        return "admin/users-edit";
+
+        webUser.setDisplayName(userDto.getDisplayName());
+        webUser.setBlocked(userDto.isBlocked());
+
+        webUserService.updateUser(webUser, userDto.getPassword());
+
+        redirectAttributes.addFlashAttribute(FLASH_MESSAGE, Message.success("User '" + userDto.getEmail() + "' successfully updated."));
+        return "redirect:/admin/users";
     }
 
     @RequestMapping(path = "/users/delete", method = RequestMethod.POST)
