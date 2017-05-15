@@ -31,8 +31,15 @@
                             <#list users.getContent() as user>
                                 <tr>
                                     <td><input type="checkbox" name="users[]" value="${user.id?c}" class="user-row-checkbox" /></td>
-                                    <td><a href="/admin/users/${user.id?c}">${user.email}</a></td>
-                                    <td>${user.displayName}</td>
+                                    <td>
+                                        <a href="/admin/users/${user.id?c}">${user.email}</a>
+                                        <#if user.blocked>
+                                            <small class="label bg-red">blocked</small>
+                                        </#if>
+                                    </td>
+                                    <td>
+                                        ${user.displayName}
+                                    </td>
                                     <td>${user.created?string["dd/MM/yyyy HH:mm"]}</td>
                                     <td>${user.updated?string["dd/MM/yyyy HH:mm"]}</td>
                                 </tr>
