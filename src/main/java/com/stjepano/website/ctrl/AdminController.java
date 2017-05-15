@@ -65,6 +65,7 @@ public class AdminController {
 
     private static final String MESSAGE = "message";
     private static final String FLASH_MESSAGE = MESSAGE;
+    private static final String VALIDATION = "validation";
 
 
     // we are injecting common model attributes here
@@ -142,7 +143,7 @@ public class AdminController {
             }
         } else {
             model.addAttribute(MESSAGE, Message.warning("Validation errors, please reenter the data in the form and try again."));
-            model.addAttribute("validation", validationResult);
+            model.addAttribute(VALIDATION, validationResult);
             return "admin/users-create";
         }
     }
