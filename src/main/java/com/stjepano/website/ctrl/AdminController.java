@@ -137,17 +137,11 @@ public class AdminController {
     public String handleCreateUser(@ModelAttribute("dto") UserDto userDto, RedirectAttributes redirectAttributes, Model model) {
         ValidationResult validationResult = createUserValidator.validate(userDto);
         if (!validationResult.hasErrors()) {
-            if (!userDto.isStayOnThisPage()) {
-                redirectAttributes.addFlashAttribute(FLASH_MESSAGE, Message.success("User "+userDto.getEmail()+" successfully created"));
-                return "redirect:/admin/users";
-            } else {
-                model.addAttribute(MESSAGE, Message.success("User "+userDto.getEmail()+" successfully created"));
-                return "admin/users-create";
-            }
-        } else {
-            validationError(model, validationResult);
-            return "admin/users-create";
+            redirectAttributes.addFlashAttribute(FLASH_MESSAGE, Message.success("User " + userDto.getEmail() + " successfully created"));
+            return userDto.isStayOnThisPage() ? "redirect:/admin/users/create" : "redirect:/admin/users";
         }
+        validationError(model, validationResult);
+        return "admin/users-create";
     }
 
     @RequestMapping(path = USERS_EDIT, method = RequestMethod.GET)
