@@ -161,7 +161,7 @@ public class AdminController {
     public String handleEditUser(@PathVariable Long id, @ModelAttribute("dto") UserDto userDto, RedirectAttributes redirectAttributes, Model model) {
         ValidationResult validationResult = updateUserValidator.validate(userDto);
         if (!validationResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute(FLASH_MESSAGE, "User '"+userDto.getEmail()+"' successfully updated.");
+            redirectAttributes.addFlashAttribute(FLASH_MESSAGE, Message.success("User '"+userDto.getEmail()+"' successfully updated."));
             return "redirect:/admin/users";
         }
         validationError(model, validationResult);
