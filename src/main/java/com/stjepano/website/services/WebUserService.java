@@ -8,6 +8,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -31,7 +32,7 @@ public class WebUserService {
     }
 
     public Page<WebUser> getPage(int pageNumber) {
-        return repository.findAll(new PageRequest(pageNumber, adminConfig.getUsersPerPage()));
+        return repository.findAll(new PageRequest(pageNumber, adminConfig.getUsersPerPage(), new Sort(Sort.Direction.ASC, "email")));
     }
 
     public WebUser createUser(WebUser prototype, String password) {
