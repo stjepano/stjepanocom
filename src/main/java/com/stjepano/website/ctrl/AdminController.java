@@ -193,6 +193,11 @@ public class AdminController {
     public String handleDeleteUsers(@RequestParam("users[]") String[] users, RedirectAttributes redirectAttributes) {
         List<Long> ids = Arrays.stream(users).map(Long::parseLong).collect(Collectors.toList());
         webUserService.deleteUsers(ids);
+        WebUser currentUser = websiteSecurityService.findLoggedInUser();
+        if (ids.stream().filter(id -> id.equals(currentUser.getId())).findAny().isPresent()) {
+            // logging out user because he is deleted
+            return "redirect:/admin/logout";
+        }
         redirectAttributes.addFlashAttribute(FLASH_MESSAGE, Message.info("Deleted "+users.length+" users"));
         return "redirect:" + UrlUtils.adminPath(USERS);
     }

@@ -3,8 +3,6 @@ package com.stjepano.website.services;
 import com.stjepano.website.components.AdminConfig;
 import com.stjepano.website.model.WebUser;
 import com.stjepano.website.repository.WebUserRepository;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
