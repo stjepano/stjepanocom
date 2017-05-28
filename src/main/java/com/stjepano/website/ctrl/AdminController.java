@@ -219,27 +219,6 @@ public class AdminController {
         return "admin/login";
     }
 
-    /*@RequestMapping(path = "/login", method = RequestMethod.POST)
-    public String handleLogin(@ModelAttribute("dto") LoginDto loginDto, RedirectAttributes redirectAttributes, Model model) {
-        model.addAttribute("dto", loginDto);
-        if (loginDto.getEmail() == null || loginDto.getPassword() == null) {
-            model.addAttribute(MESSAGE, Message.danger("Email and/or password are invalid!"));
-            return "admin/login";
-        }
-        Optional<WebUser> webUserOptional = webUserService.findByLogin(loginDto.getEmail(), loginDto.getPassword());
-        if (webUserOptional.isPresent()) {
-            redirectAttributes.addFlashAttribute(FLASH_MESSAGE, Message.success("Successfully logged in as '" + loginDto.getEmail() + "'"));
-            return "redirect:/admin/";
-        }
-        model.addAttribute(MESSAGE, Message.danger("Email and/or password are invalid!"));
-        return "admin/login";
-    }*/
-
-    /*@RequestMapping(path = "/logout", method = RequestMethod.GET)
-    public String logout() {
-        return "redirect:/";
-    }*/
-
     /** set message and validation object in model */
     private void validationError(Model model, ValidationResult validationResult) {
         model.addAttribute(MESSAGE, Message.warning("Validation errors, please reenter the data in the form and try again."));
