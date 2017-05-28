@@ -22,7 +22,7 @@ public class WebsiteSecurityService {
 
     public WebUser findLoggedInUser() {
         Object userDetails = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (userDetails instanceof UserDetails) {
+        if (userDetails != null && userDetails instanceof UserDetails) {
             return ((WebsiteUserDetails)userDetails).getWebUser();
         }
 
