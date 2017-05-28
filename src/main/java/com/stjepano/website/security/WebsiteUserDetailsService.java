@@ -30,41 +30,6 @@ public class WebsiteUserDetailsService implements UserDetailsService {
         WebUser webUser = webUserService.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException(username));
         final Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         grantedAuthorities.add(new SimpleGrantedAuthority(ADMIN_ROLE));
-        return new UserDetails() {
-            @Override
-            public Collection<? extends GrantedAuthority> getAuthorities() {
-                return grantedAuthorities;
-            }
-
-            @Override
-            public String getPassword() {
-                return webUser.getHashedPassword();
-            }
-
-            @Override
-            public String getUsername() {
-                return webUser.getEmail();
-            }
-
-            @Override
-            public boolean isAccountNonExpired() {
-                return true;
-            }
-
-            @Override
-            public boolean isAccountNonLocked() {
-                return !webUser.isBlocked();
-            }
-
-            @Override
-            public boolean isCredentialsNonExpired() {
-                return true;
-            }
-
-            @Override
-            public boolean isEnabled() {
-                return true;
-            }
-        };
+        return new WebsiteUserDetails(webUser);
     }
 }
