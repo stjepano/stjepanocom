@@ -52,7 +52,7 @@
                 <div class="col-xs-8">
                     <div class="checkbox icheck">
                         <label>
-                            <input type="checkbox" ${dto.rememberMe?then('checked="checked"', '')} name="rememberMe" /> Remember Me
+                            <input type="checkbox" ${dto.rememberMe?then('checked="checked"', '')} name="remember-me" /> Remember Me
                         </label>
                     </div>
                 </div>
