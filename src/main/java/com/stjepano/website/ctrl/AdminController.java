@@ -4,6 +4,7 @@ import com.stjepano.website.components.AdminConfig;
 import com.stjepano.website.components.AdminPages;
 import com.stjepano.website.components.DevUtils;
 import com.stjepano.website.model.WebUser;
+import com.stjepano.website.security.WebsiteSecurityService;
 import com.stjepano.website.services.WebUserService;
 import com.stjepano.website.utils.UrlUtils;
 import com.stjepano.website.view.LoginDto;
@@ -48,6 +49,9 @@ public class AdminController {
     private WebUserService webUserService;
 
     @Autowired
+    private WebsiteSecurityService websiteSecurityService;
+
+    @Autowired
     private DevUtils devUtils;
 
     @Autowired
@@ -80,11 +84,7 @@ public class AdminController {
         final String path = (String) webRequest.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE, WebRequest.SCOPE_REQUEST);
         final String matchedPathPattern = (String) webRequest.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE, WebRequest.SCOPE_REQUEST);
 
-        WebUser webUser = new WebUser();
-        webUser.setId(1000L);
-        webUser.setDisplayName("Stjepan Obrankovic");
-        webUser.setImageUri("/adminlte/img/user2-160x160.jpg");
-        webUser.setCreated(new Date());
+        WebUser webUser = websiteSecurityService.findLoggedInUser();
 
         adminPages.getByPathPattern(matchedPathPattern).ifPresent( page -> {
             // render the menu to the client

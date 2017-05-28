@@ -4,6 +4,7 @@ import com.stjepano.website.model.WebUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
@@ -20,11 +21,11 @@ public class WebsiteSecurityService {
     private UserDetailsService userDetailsService;
 
     public WebUser findLoggedInUser() {
-        Object userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
-        if (userDetails != null) {
-            WebsiteUserDetails websiteUserDetails = (WebsiteUserDetails) userDetails;
-            return websiteUserDetails.getWebUser();
+        Object userDetails = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (userDetails instanceof UserDetails) {
+            return ((WebsiteUserDetails)userDetails).getWebUser();
         }
+
         return null;
     }
 }

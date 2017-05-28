@@ -108,14 +108,14 @@ desired effect
                         <!-- Menu Toggle Button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <!-- The user image in the navbar-->
-                            <img src="${user.imageUri}" class="user-image" alt="User Image">
+                            <img src='${(user.imageUri)!"/adminlte/img/user2-160x160.jpg"}' class="user-image" alt="User Image">
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
                             <span class="hidden-xs">${user.displayName}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
                             <li class="user-header">
-                                <img src="${user.imageUri}" class="img-circle" alt="User Image">
+                                <img src='${(user.imageUri)!"/adminlte/img/user2-160x160.jpg"}' class="img-circle" alt="User Image">
                                 <p>
                                     ${user.displayName}
                                     <small>Member since ${user.created?date?iso_utc}</small>
@@ -158,7 +158,7 @@ desired effect
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="${user.imageUri}" class="img-circle" alt="User Image">
+                    <img src='${(user.imageUri)!"/adminlte/img/user2-160x160.jpg"}' class="img-circle" alt="User Image">
                 </div>
                 <div class="pull-left info">
                     <p>${user.displayName}</p>
