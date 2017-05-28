@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -27,6 +28,9 @@ public class WebUserService {
     @Autowired
     private WebUserRepository repository;
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     public boolean hasUsers() {
         return repository.count() > 0;
     }
@@ -38,8 +42,7 @@ public class WebUserService {
     public WebUser createUser(WebUser prototype, String password) {
         prototype.setCreated(new Date());
         prototype.setUpdated(new Date());
-        prototype.setSalt(genSalt());
-        prototype.setHashedPassword(hashPassword(password, prototype.getSalt()));
+        prototype.setHashedPassword(bCryptPasswordEncoder.encode(password));
         return repository.save(prototype);
     }
 
@@ -48,36 +51,18 @@ public class WebUserService {
         return Optional.ofNullable(repository.findOne(id));
     }
 
+    public Optional<WebUser> findByEmail(String email) {
+        return Optional.ofNullable(repository.findByEmail(email));
+    }
+
     public void deleteUsers(List<Long> ids) {
         ids.forEach(repository::delete);
-    }
-
-    public Optional<WebUser> findByLogin(String email, String password) {
-        WebUser webUser = repository.findByEmail(email);
-        if (webUser == null || webUser.isBlocked()) {
-            return Optional.empty();
-        }
-
-        String providedPasswordHash = hashPassword(password, webUser.getSalt());
-        if (providedPasswordHash.equals(webUser.getHashedPassword())) {
-            return Optional.of(webUser);
-        }
-        return Optional.empty();
-    }
-
-    private String genSalt() {
-        return DigestUtils.md5Hex(RandomStringUtils.randomAlphanumeric(16));
-    }
-
-    private String hashPassword(String password, String salt) {
-        return DigestUtils.sha512Hex(salt + password);
     }
 
     public WebUser updateUser(WebUser webUser, String password) {
         if (password != null && !password.isEmpty()) {
             // update password
-            webUser.setSalt(genSalt());
-            webUser.setHashedPassword(hashPassword(password, webUser.getSalt()));
+            webUser.setHashedPassword(bCryptPasswordEncoder.encode(password));
         }
         webUser.setUpdated(new Date());
         return repository.save(webUser);

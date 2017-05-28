@@ -207,12 +207,19 @@ public class AdminController {
     }
 
     @RequestMapping(path = "/login", method = RequestMethod.GET)
-    public String login(Model model) {
-        model.addAttribute("dto", new LoginDto());
+    public String login(Model model, String error, String logout) {
+        LoginDto loginDto = new LoginDto();
+        model.addAttribute("dto", loginDto);
+        if (error != null) {
+            model.addAttribute(MESSAGE, Message.danger("Email and/or password are invalid!"));
+        }
+        if (logout != null) {
+            model.addAttribute(MESSAGE, Message.success("You have logged out!"));
+        }
         return "admin/login";
     }
 
-    @RequestMapping(path = "/login", method = RequestMethod.POST)
+    /*@RequestMapping(path = "/login", method = RequestMethod.POST)
     public String handleLogin(@ModelAttribute("dto") LoginDto loginDto, RedirectAttributes redirectAttributes, Model model) {
         model.addAttribute("dto", loginDto);
         if (loginDto.getEmail() == null || loginDto.getPassword() == null) {
@@ -226,12 +233,12 @@ public class AdminController {
         }
         model.addAttribute(MESSAGE, Message.danger("Email and/or password are invalid!"));
         return "admin/login";
-    }
+    }*/
 
-    @RequestMapping(path = "/logout", method = RequestMethod.GET)
+    /*@RequestMapping(path = "/logout", method = RequestMethod.GET)
     public String logout() {
         return "redirect:/";
-    }
+    }*/
 
     /** set message and validation object in model */
     private void validationError(Model model, ValidationResult validationResult) {

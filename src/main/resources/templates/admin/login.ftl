@@ -40,13 +40,14 @@
         </#if>
         <form action="/admin/login" method="post">
             <div class="form-group has-feedback">
-                <input type="email" name="email" class="form-control" placeholder="Email" value="${(dto.email)!''}" />
+                <input type="email" name="username" class="form-control" placeholder="Email" value="${(dto.username)!''}" />
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
                 <input type="password" name="password" class="form-control" placeholder="Password" />
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
+            <input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
             <div class="row">
                 <div class="col-xs-8">
                     <div class="checkbox icheck">

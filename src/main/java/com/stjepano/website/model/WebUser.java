@@ -18,7 +18,6 @@ public class WebUser {
     @Column(unique = true)
     private String displayName;
     private String description;
-    private String salt;
     private String hashedPassword;
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
@@ -75,14 +74,6 @@ public class WebUser {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
     }
 
     public String getHashedPassword() {
