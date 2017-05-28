@@ -181,6 +181,7 @@ public class AdminController {
 
         webUser.setDisplayName(userDto.getDisplayName());
         webUser.setBlocked(userDto.isBlocked());
+        webUser.setDescription(userDto.getDescription());
 
         webUserService.updateUser(webUser, userDto.getPassword());
 
