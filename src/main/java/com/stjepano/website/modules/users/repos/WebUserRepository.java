@@ -1,9 +1,7 @@
-package com.stjepano.website.repository;
+package com.stjepano.website.modules.users.repos;
 
-import com.stjepano.website.model.WebUser;
+import com.stjepano.website.modules.users.model.WebUser;
 import org.springframework.data.repository.PagingAndSortingRepository;
-
-import java.util.List;
 
 /**
  * User repository ...

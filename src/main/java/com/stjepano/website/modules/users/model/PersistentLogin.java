@@ -1,4 +1,4 @@
-package com.stjepano.website.model;
+package com.stjepano.website.modules.users.model;
 
 import javax.persistence.*;
 import java.util.Date;

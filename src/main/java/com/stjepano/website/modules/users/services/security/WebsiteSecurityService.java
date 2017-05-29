@@ -1,6 +1,6 @@
-package com.stjepano.website.security;
+package com.stjepano.website.modules.users.services.security;
 
-import com.stjepano.website.model.WebUser;
+import com.stjepano.website.modules.users.model.WebUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.context.SecurityContextHolder;

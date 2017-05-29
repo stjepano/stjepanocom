@@ -1,8 +1,8 @@
-package com.stjepano.website.services;
+package com.stjepano.website.modules.users.services;
 
 import com.stjepano.website.components.AdminConfig;
-import com.stjepano.website.model.WebUser;
-import com.stjepano.website.repository.WebUserRepository;
+import com.stjepano.website.modules.users.model.WebUser;
+import com.stjepano.website.modules.users.repos.WebUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * This is {@link com.stjepano.website.model.WebUser} service
+ * This is {@link WebUser} service
  */
 @Service
 public class WebUserService {

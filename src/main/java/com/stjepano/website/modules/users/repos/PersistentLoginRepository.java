@@ -1,6 +1,6 @@
-package com.stjepano.website.repository;
+package com.stjepano.website.modules.users.repos;
 
-import com.stjepano.website.model.PersistentLogin;
+import com.stjepano.website.modules.users.model.PersistentLogin;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

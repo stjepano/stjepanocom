@@ -1,7 +1,7 @@
-package com.stjepano.website.services;
+package com.stjepano.website.modules.files.services;
 
 import com.stjepano.website.components.WebsiteConfig;
-import com.stjepano.website.model.WebsiteFileInfo;
+import com.stjepano.website.modules.files.model.WebsiteFileInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.Resource;

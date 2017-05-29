@@ -1,6 +1,6 @@
 package com.stjepano.website.components;
 
-import com.stjepano.website.model.WebUser;
+import com.stjepano.website.modules.users.model.WebUser;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

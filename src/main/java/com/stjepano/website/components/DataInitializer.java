@@ -1,7 +1,7 @@
 package com.stjepano.website.components;
 
-import com.stjepano.website.model.WebUser;
-import com.stjepano.website.services.WebUserService;
+import com.stjepano.website.modules.users.model.WebUser;
+import com.stjepano.website.modules.users.services.WebUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
-package com.stjepano.website.security;
+package com.stjepano.website.modules.users.services.security;
 
-import com.stjepano.website.model.WebUser;
+import com.stjepano.website.modules.users.model.WebUser;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**

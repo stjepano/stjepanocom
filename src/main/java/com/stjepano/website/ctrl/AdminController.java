@@ -3,9 +3,9 @@ package com.stjepano.website.ctrl;
 import com.stjepano.website.components.AdminConfig;
 import com.stjepano.website.components.AdminPages;
 import com.stjepano.website.components.DevUtils;
-import com.stjepano.website.model.WebUser;
-import com.stjepano.website.security.WebsiteSecurityService;
-import com.stjepano.website.services.WebUserService;
+import com.stjepano.website.modules.users.model.WebUser;
+import com.stjepano.website.modules.users.services.security.WebsiteSecurityService;
+import com.stjepano.website.modules.users.services.WebUserService;
 import com.stjepano.website.utils.UrlUtils;
 import com.stjepano.website.view.LoginDto;
 import com.stjepano.website.view.Message;
@@ -25,9 +25,7 @@ import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**

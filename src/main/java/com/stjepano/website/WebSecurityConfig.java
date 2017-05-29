@@ -1,8 +1,7 @@
 package com.stjepano.website;
 
-import com.stjepano.website.model.PersistentLogin;
-import com.stjepano.website.repository.PersistentLoginRepository;
-import com.stjepano.website.security.WebsiteUserDetailsService;
+import com.stjepano.website.modules.users.model.PersistentLogin;
+import com.stjepano.website.modules.users.repos.PersistentLoginRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

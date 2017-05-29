@@ -1,4 +1,4 @@
-package com.stjepano.website.model;
+package com.stjepano.website.modules.files.model;
 
 import org.apache.commons.io.FilenameUtils;
 

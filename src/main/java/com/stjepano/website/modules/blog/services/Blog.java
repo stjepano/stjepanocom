@@ -1,4 +1,4 @@
-package com.stjepano.website.services;
+package com.stjepano.website.modules.blog.services;
 
 import org.springframework.stereotype.Service;
 
