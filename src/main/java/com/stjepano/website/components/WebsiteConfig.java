@@ -14,6 +14,8 @@ public class WebsiteConfig {
     private String heading;
     @Value("${com.stjepano.website.WebsiteConfig.subHeading}")
     private String subHeading;
+    @Value("${com.stjepano.website.WebsiteConfig.uploadFolder}")
+    private String uploadFolder;
 
     public String getName() {
         return name;
@@ -37,5 +39,13 @@ public class WebsiteConfig {
 
     public void setSubHeading(String subHeading) {
         this.subHeading = subHeading;
+    }
+
+    public String getUploadFolder() {
+        return uploadFolder;
+    }
+
+    public void setUploadFolder(String uploadFolder) {
+        this.uploadFolder = uploadFolder;
     }
 }
