@@ -1,7 +1,9 @@
 package com.stjepano.website.modules.files.services;
 
 import com.stjepano.website.components.WebsiteConfig;
+import com.stjepano.website.modules.files.model.WebsiteFile;
 import com.stjepano.website.modules.files.model.WebsiteFileInfo;
+import com.stjepano.website.modules.files.model.WebsiteFilePath;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.Resource;
@@ -30,13 +32,13 @@ public class FileService implements ResourceLoaderAware {
     private ResourceLoader resourceLoader;
 
     /** Upload file to given directory */
-    public void upload(MultipartFile file, String uploadPath) {
+    public void upload(MultipartFile file, WebsiteFilePath uploadPath) {
 
 
     }
 
     /** List all files in given directory */
-    public List<WebsiteFileInfo> list(String uploadPath) {
+    public List<WebsiteFile> list(WebsiteFilePath uploadPath) {
         Path path = path(uploadPath);
         try {
             return Files.list(path).map(p -> WebsiteFileInfo.createFromRealPath(websiteConfig.getUploadFolder(), p)).collect(Collectors.toList());
@@ -46,7 +48,7 @@ public class FileService implements ResourceLoaderAware {
     }
 
     /** Returns file info for give file, if file exists */
-    public Optional<WebsiteFileInfo> get(String uploadPath) {
+    public Optional<WebsiteFile> get(WebsiteFilePath uploadPath) {
         Path path = path(uploadPath);
         if (!Files.exists(path)) {
             return Optional.empty();
@@ -55,7 +57,7 @@ public class FileService implements ResourceLoaderAware {
     }
 
     /** Returns resource for given file if file exista */
-    public Optional<Resource> getAsResource(String uploadPath) {
+    public Optional<Resource> getAsResource(WebsiteFilePath uploadPath) {
         Path path = path(uploadPath);
         if (!Files.exists(path)) {
             return Optional.empty();
@@ -64,32 +66,32 @@ public class FileService implements ResourceLoaderAware {
     }
 
     /** Deletes specified files */
-    public void delete(Set<String> files) {
+    public void delete(Set<WebsiteFilePath> files) {
 
     }
 
     /** Copies files to given path */
-    public void copyTo(Set<String> files, String uploadPath) {
+    public void copyTo(Set<WebsiteFilePath> files, WebsiteFilePath uploadPath) {
 
     }
 
     /** Moves files to given upload path */
-    public void moveTo(Set<String> files, String uploadPath) {
+    public void moveTo(Set<WebsiteFilePath> files, WebsiteFilePath uploadPath) {
 
     }
 
     /** Creates new directory */
-    public void createDirectory(String uploadPath) {
+    public void createDirectory(WebsiteFilePath uploadPath) {
 
     }
 
     /** Deletes directory and all files in it */
-    public void deleteDirectory(String uploadPath) {
+    public void deleteDirectory(WebsiteFilePath uploadPath) {
 
     }
 
-    private Path path(String uploadPath) {
-        return Paths.get(websiteConfig.getUploadFolder(), uploadPath);
+    private Path path(WebsiteFilePath uploadPath) {
+        return Paths.get(websiteConfig.getUploadFolder(), uploadPath.toString());
     }
 
     @Override
